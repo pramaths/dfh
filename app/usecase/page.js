@@ -1,10 +1,10 @@
 'use client'
 import Image from "next/image";
-import Graph from "../components/graph"
+import Usecase from "../../components/component/component"
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <Graph/>
+      <Usecase/>
     </main>
   );
 }

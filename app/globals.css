@@ -31,3 +31,18 @@ body {
     text-wrap: balance;
   }
 }
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.react-flow__edge-path {
+  animation: floatAnimation 2s ease-in-out infinite;
+  fill: none;
+  stroke-width: 2px;
+  stroke: black;
+}
