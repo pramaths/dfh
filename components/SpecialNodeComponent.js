@@ -9,8 +9,8 @@ const SpecialNodeComponent = ({ data }) => {
         border: '1px solid #777',
         borderRadius: '3px',
         backgroundColor: 'white',
-        // cursor: 'grab',
-        "border-radius": "1rem",
+        cursor: 'pointer',
+        // border-radius: "1rem",
         whiteSpace: 'nowrap',
       }}
     >

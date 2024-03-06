@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback,useMemo } from 'react';
 import ReactFlow, {
     addEdge,
     MiniMap,
@@ -10,13 +10,14 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import SpecialNodeComponent from './SpecialNodeComponent';
-import FloatingEdge from './customedge';
+import FloatingEdge from './FloatingEdge';
+import Sidebar from './SideBar';
 const initialNodes = [
   {
     id: '1',
     type: 'input',
     data: { label: 'You' },
-    position: { x: 250, y: 5 }, 
+    position: { x: 550, y: 5 }, 
     draggable:true
   },
 ];
@@ -27,32 +28,60 @@ const initialEdges = [];
 const careerPaths = [
     { "title": "Mechanical Engineer", "emoji": "🔧" },
     { "title": "Software Developer", "emoji": "💻" },
-    { "title": "Biomedical Engineer", "emoji": "🧬" },
-    { "title": "Civil Engineer", "emoji": "🏗️" },
-    { "title": "Chemical Engineer", "emoji": "⚗️" },
-    { "title": "Environmental Engineer", "emoji": "🌱" },
-    { "title": "Electrical Engineer", "emoji": "🔌" },
-    { "title": "Aerospace Engineer", "emoji": "🚀" },
-    { "title": "Nuclear Engineer", "emoji": "☢️" },
-    { "title": "Data Scientist", "emoji": "📊" },
-    { "title": "Materials Scientist", "emoji": "🔬" },
-    { "title": "Pharmaceutical Scientist", "emoji": "💊" },
-    { "title": "Robotics Engineer", "emoji": "🤖" },
-    { "title": "Agricultural Engineer", "emoji": "🌾" },
-    { "title": "Petroleum Engineer", "emoji": "⛽" },
-    { "title": "Geotechnical Engineer", "emoji": "🌍" },
-    { "title": "Astrophysicist", "emoji": "🌌" },
-    { "title": "Ocean Engineer", "emoji": "🌊" },
-    { "title": "Computer Systems Analyst", "emoji": "🖥️" },
-    { "title": "Information Security Analyst", "emoji": "🔒" }
+    // { "title": "Biomedical Engineer", "emoji": "🧬" },
+    // { "title": "Civil Engineer", "emoji": "🏗️" },
+    // { "title": "Chemical Engineer", "emoji": "⚗️" },
+    // { "title": "Environmental Engineer", "emoji": "🌱" },
+    // { "title": "Electrical Engineer", "emoji": "🔌" },
+    // { "title": "Aerospace Engineer", "emoji": "🚀" },
+    // { "title": "Nuclear Engineer", "emoji": "☢️" },
+    // { "title": "Data Scientist", "emoji": "📊" },
+    // { "title": "Materials Scientist", "emoji": "🔬" },
+    // { "title": "Pharmaceutical Scientist", "emoji": "💊" },
+    // { "title": "Robotics Engineer", "emoji": "🤖" },
+    // { "title": "Agricultural Engineer", "emoji": "🌾" },
+    // { "title": "Petroleum Engineer", "emoji": "⛽" },
+    // { "title": "Geotechnical Engineer", "emoji": "🌍" },
+    // { "title": "Astrophysicist", "emoji": "🌌" },
+    // { "title": "Ocean Engineer", "emoji": "🌊" },
+    // { "title": "Computer Systems Analyst", "emoji": "🖥️" },
+    // { "title": "Information Security Analyst", "emoji": "🔒" }
   ]
   
 const nodeDistance = 200; 
-
 const FlowComponent = () => {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [sidebarContent, setSidebarContent] = useState('');
+    const [sidebardetials,setSidebardetails]=useState('')
+    const onDoubleClick = (event, node) => {
+        console.log('Node double-clicked:', node);
+        setSidebarContent(node.data.label);
+        setIsSidebarOpen(true);
+    };
+    const onNodeClick = (event, node) => {
+        console.log("Node clicked:", node);
+        setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')
+        setSelectedNode(node);
+        setIsSidebarOpen(true); // Open your sidebar upon clicking a node
+        setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
+    };
+    
+    const nodeTypes = useMemo(
+        () => ({
+            special: SpecialNodeComponent, 
+        }),
+        [],
+      );
+    const edgeTypes = useMemo(
+        () => ({
+            floating: FloatingEdge
+        }),
+        [],
+      );
     const onNodesChange = useCallback(
         (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
         [],
@@ -68,7 +97,7 @@ const FlowComponent = () => {
         rfi.setNodes((nds) => nds.map((node) => {
             if (node.id === '1') {
                 // Position the 'You' node in the center
-                const dimensions = rfi.project({ x: 250, y: 5});
+                const dimensions = rfi.screenToFlowPosition({ x: 550, y: 5});
                 return {
                     ...node,
                     position: dimensions,
@@ -77,9 +106,7 @@ const FlowComponent = () => {
             return node;
         }));
     };
-    const edgeTypes = {
-        floating: FloatingEdge, 
-      };
+  
     const addCareerPathNodeAndEdge = useCallback(() => {
         if (nodes.length >= careerPaths.length + 1) { // Plus one to account for the 'You' node
             return;
@@ -109,31 +136,54 @@ const FlowComponent = () => {
 
     useEffect(() => {
         if (!reactFlowInstance) return;
-        const intervalId = setInterval(addCareerPathNodeAndEdge, 3000); // Adjust interval as needed
+        const intervalId = setInterval(addCareerPathNodeAndEdge, 1500); // Adjust interval as needed
 
         return () => clearInterval(intervalId);
     }, [addCareerPathNodeAndEdge, reactFlowInstance]);
 
     return (
+        <div>
         <ReactFlowProvider>
-            <div style={{ height: '100vh', width: '100vw' }}>
+            <div style={{ position:"relative", height: '100vh', width: '100vw' }}>
                 <ReactFlow
                     nodes={nodes}
                     onNodesChange={onNodesChange}
                     edges={edges}
                     onEdgesChange={onEdgesChange}
                     onInit={onLoad}
-                    // fitView
-                    nodeTypes={{ special: SpecialNodeComponent }} // Define your custom node component if needed
-                    edgeTypes={{ floating: FloatingEdge }}
-                    attributionPosition="top-right"
+                   onNodeClick={onNodeClick}
+                    // onNodeDoubleClick={onDoubleClick}
+                    nodeTypes={nodeTypes} // Define your custom node component if needed
+                    edgeTypes={ edgeTypes}
+                
                 >
                     <MiniMap />
                     <Controls />
                     <Background />
                 </ReactFlow>
+                {/* {isSidebarOpen && selectedNode && (
+    <Sidebar 
+        content={sidebarContent} 
+        closeSidebar={() => {
+            setIsSidebarOpen(false);
+            setSelectedNode(null); // Reset selected node state on closing the sidebar
+            
+        }} 
+    />
+)} */}
+ <Sidebar 
+                        show={isSidebarOpen}
+                        content={sidebarContent}
+                        details={sidebardetials}
+                        closeSidebar={() => {
+                            setIsSidebarOpen(false);
+                            setSelectedNode(null);
+                        }} 
+                    />
             </div>
         </ReactFlowProvider>
+      
+        </div>
     );
 };
 

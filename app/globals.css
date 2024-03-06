@@ -46,3 +46,6 @@ body {
   stroke-width: 2px;
   stroke: black;
 }
+.react-flow__node {
+  cursor: pointer;
+}
