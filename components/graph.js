@@ -49,7 +49,7 @@ const careerPaths = [
     // { "title": "Information Security Analyst", "emoji": "🔒" }
   ]
   
-const nodeDistance = 200; 
+const nodeDistance = 300; 
 const FlowComponent = () => {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
@@ -106,7 +106,7 @@ const FlowComponent = () => {
         rfi.setNodes((nds) => nds.map((node) => {
             if (node.id === '1') {
                 // Position the 'You' node in the center
-                const dimensions = rfi.screenToFlowPosition({ x: 550, y: 5});
+                const dimensions = rfi.screenToFlowPosition({ x: 700, y: 200});
                 return {
                     ...node,
                     position: dimensions,
@@ -122,7 +122,7 @@ const FlowComponent = () => {
         }
 
         const newNodeId = `node_${nodes.length}`;
-        const angle = ((Math.PI * 2) / careerPaths.length) * (nodes.length - 1);
+        const angle = ((Math.PI * 3) / careerPaths.length) * (nodes.length - 1);
         const x = Math.cos(angle) * nodeDistance * (nodes.length - 1);
         const y = Math.sin(angle) * nodeDistance * (nodes.length - 1);
 
