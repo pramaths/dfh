@@ -14,6 +14,7 @@ export function GraphDataProvider({ children }) { // Changed to named export
   });
 
   const updateSelections = (key, value) => {
+    console.log(key,value)
     setSelections((prev) => ({
       ...prev,
       [key]: value,
