@@ -1,21 +1,28 @@
-// context/GraphDataContext.js
 'use client'
 import React, { createContext, useContext, useState } from 'react';
 
-const GraphDataContext = createContext();
+const SelectionsContext = createContext();
 
-export const useGraphData = () => useContext(GraphDataContext);
+export function useSelections() { // Changed to named export
+  return useContext(SelectionsContext);
+}
 
-export const GraphDataProvider = ({ children }) => {
-  const [collectedData, setCollectedData] = useState({});
+export function GraphDataProvider({ children }) { // Changed to named export
+  const [selections, setSelections] = useState({
+    interests: [],
+    growth: '',
+  });
 
-  const updateData = (newData) => {
-    setCollectedData(prevData => ({ ...prevData, ...newData }));
+  const updateSelections = (key, value) => {
+    setSelections((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   return (
-    <GraphDataContext.Provider value={{ collectedData, updateData }}>
+    <SelectionsContext.Provider value={{ selections, updateSelections }}>
       {children}
-    </GraphDataContext.Provider>
+    </SelectionsContext.Provider>
   );
 };

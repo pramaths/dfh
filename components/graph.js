@@ -12,6 +12,7 @@ import 'reactflow/dist/style.css';
 import SpecialNodeComponent from './SpecialNodeComponent';
 import FloatingEdge from './FloatingEdge';
 import Sidebar from './SideBar';
+import { useSelections } from '../context/GraphDataContext';
 const initialNodes = [
   {
     id: '1',
@@ -57,11 +58,19 @@ const FlowComponent = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [sidebarContent, setSidebarContent] = useState('');
     const [sidebardetials,setSidebardetails]=useState('')
+    const { selections } = useSelections();
+
     const onDoubleClick = (event, node) => {
         console.log('Node double-clicked:', node);
         setSidebarContent(node.data.label);
         setIsSidebarOpen(true);
     };
+
+    useEffect(() => {
+      // Here you would send the selections to your service
+      console.log(selections);
+      // Replace console.log with your function to send data to ChatGPT or similar service
+    }, [selections]);
     const onNodeClick = (event, node) => {
         console.log("Node clicked:", node);
         setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')
