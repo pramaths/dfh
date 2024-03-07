@@ -28,12 +28,12 @@ const initialEdges = [];
 const careerPaths = [
     { "title": "Mechanical Engineer", "emoji": "🔧" },
     { "title": "Software Developer", "emoji": "💻" },
-    // { "title": "Biomedical Engineer", "emoji": "🧬" },
-    // { "title": "Civil Engineer", "emoji": "🏗️" },
-    // { "title": "Chemical Engineer", "emoji": "⚗️" },
-    // { "title": "Environmental Engineer", "emoji": "🌱" },
-    // { "title": "Electrical Engineer", "emoji": "🔌" },
-    // { "title": "Aerospace Engineer", "emoji": "🚀" },
+    { "title": "Biomedical Engineer", "emoji": "🧬" },
+    { "title": "Civil Engineer", "emoji": "🏗️" },
+    { "title": "Chemical Engineer", "emoji": "⚗️" },
+    { "title": "Environmental Engineer", "emoji": "🌱" },
+    { "title": "Electrical Engineer", "emoji": "🔌" },
+    { "title": "Aerospace Engineer", "emoji": "🚀" },
     // { "title": "Nuclear Engineer", "emoji": "☢️" },
     // { "title": "Data Scientist", "emoji": "📊" },
     // { "title": "Materials Scientist", "emoji": "🔬" },
@@ -136,7 +136,7 @@ const FlowComponent = () => {
 
     useEffect(() => {
         if (!reactFlowInstance) return;
-        const intervalId = setInterval(addCareerPathNodeAndEdge, 1500); // Adjust interval as needed
+        const intervalId = setInterval(addCareerPathNodeAndEdge, 1000); // Adjust interval as needed
 
         return () => clearInterval(intervalId);
     }, [addCareerPathNodeAndEdge, reactFlowInstance]);

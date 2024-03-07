@@ -41,7 +41,7 @@ import { TypeAnimation } from 'react-type-animation';const Sidebar = ({ show, co
       <div className="fixed inset-0 bg-white bg-opacity-60 z-40" onClick={closeSidebar}></div>
       
       {/* Sidebar Content */}
-      <div className="fixed right-0 top-0 bottom-0 w-1/4 bg-white text-black p-4 z-50 overflow-auto border rounded-2xl">
+      <div className="fixed right-0 top-0 bottom-0 w-1/4 bg-white text-black p-4 z-50 overflow-auto border rounded-l-2xl ">
         <div className='flex justify-between items-start'>
           <div>
             <h2>{content}</h2>
