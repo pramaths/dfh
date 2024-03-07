@@ -10,7 +10,10 @@ export function useSelections() { // Changed to named export
 export function GraphDataProvider({ children }) { // Changed to named export
   const [selections, setSelections] = useState({
     interests: [],
+    notinterests: [],
     growth: '',
+    workenv: '',
+    hobby: '',
   });
 
   const updateSelections = (key, value) => {
@@ -25,5 +28,5 @@ export function GraphDataProvider({ children }) { // Changed to named export
     <SelectionsContext.Provider value={{ selections, updateSelections }}>
       {children}
     </SelectionsContext.Provider>
-  );
+  );
 };
