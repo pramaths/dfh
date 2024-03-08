@@ -31,20 +31,32 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { LampContainer } from '../../components/ui/lamp';
-// Import useNavigate from react-router-dom if navigation is needed
-// import { useNavigate } from 'react-router-dom';
-
+import { useRouter } from 'next/navigation';
+import { GraphDataProvider,useSelections } from '../../context/GraphDataContext';
 export default function LampDemo() {
-  const [linkedinProfile, setLinkedinProfile] = useState('');
-  // Uncomment the next line if navigation is needed
-  // const navigate = useNavigate();
+//   const [linkedinProfile, setLinkedinProfile] = useState('');
+//   const router = useRouter();
+//   const { updateSelections } = useSelections();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('LinkedIn Profile:', linkedinProfile);
-    // Implement or replace this function based on your app's routing logic
-    // Example navigation: navigate(`/path-to-graph/${linkedinProfile}`);
-  };
+//   const handleChange = (event) => {
+//     console.log("handleChange called with value:", event.target.value);
+//     updateSelections('linkedIn', event.target.value);
+//     router.push('/graph');
+//   };
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     console.log('LinkedIn Profile:', linkedinProfile);
+//   };
+const [linkedinProfile, setLinkedinProfile] = useState('');
+const router = useRouter();
+const { updateSelections } = useSelections();
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  console.log('LinkedIn Profile:', linkedinProfile);
+  updateSelections('linkedIn', linkedinProfile); // Assuming this updates the global state correctly
+  router.push('/graph'); // Navigate after the state is updated
+};
 
   return (
     <div className="bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text text-center items-center font-medium tracking-tight text-transparent justify-center overflow-hidden max-h-screen flex flex-col">

@@ -14,6 +14,8 @@ export function GraphDataProvider({ children }) { // Changed to named export
     growth: '',
     workenv: '',
     hobby: '',
+    linkedIn:'',
+    resume:'',
   });
 
   const updateSelections = (key, value) => {
