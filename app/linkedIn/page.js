@@ -68,7 +68,7 @@ export default function LampDemo() {
             placeholder="Enter your LinkedIn URL"
             value={linkedinProfile}
             onChange={(e) => setLinkedinProfile(e.target.value)}
-            className="mt-4 mb-2 p-2 border border-slate-300 rounded-md"
+            className="mt-4 mb-2 p-2 border border-slate-300 rounded-md text-black"
           />
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
             Submit

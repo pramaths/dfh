@@ -14,7 +14,7 @@ const careerOptions = [
     text: "LinkedIn Profile",
     revealText: "Unlock opportunities based on your professional network.",
     id: "linkedin",
-    route: "/linkedin",
+    route: "/linkedIn",
   },
   {
     text: "Resume Insights",
@@ -23,6 +23,11 @@ const careerOptions = [
     route: "/resume",
   },
 ];
+const buttonGradientStyle = {
+    background: 'linear-gradient(45deg, #007BFF, #8811AA)', // Example gradient
+    color: '#FFF', // Adjust text color as needed
+    padding:"1rem"
+  };
 
 function CareerOptions() {
   const router = useRouter();
@@ -44,6 +49,7 @@ function CareerOptions() {
             size='large'// Adjust size as needed
             onClick={() => navigate(route)}
             className="mt-4" // Add margin top or adjust as needed for spacing
+            style={buttonGradientStyle}
           >
             Learn More
           </Button>
