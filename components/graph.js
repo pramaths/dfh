@@ -170,16 +170,6 @@ const FlowComponent = () => {
                     <Controls />
                     <Background />
                 </ReactFlow>
-                {/* {isSidebarOpen && selectedNode && (
-    <Sidebar 
-        content={sidebarContent} 
-        closeSidebar={() => {
-            setIsSidebarOpen(false);
-            setSelectedNode(null); // Reset selected node state on closing the sidebar
-            
-        }} 
-    />
-)} */}
  <Sidebar 
                         show={isSidebarOpen}
                         content={sidebarContent}
