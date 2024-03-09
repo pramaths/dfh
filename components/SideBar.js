@@ -34,7 +34,7 @@ import { TypeAnimation } from 'react-type-animation';const Sidebar = ({ show, co
   if (!show) {
     return null;
   }
-
+console.log("pramath",content,details)
   return (
     <>
       {/* Overlay */}

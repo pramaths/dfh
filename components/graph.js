@@ -126,8 +126,6 @@ console.log('raw',careerRaw)
     const onNodeClick = async (event, node) => {
         console.log("Node clicked:", node);
         setSelectedNode(node);
-    
-        // Assume we have an endpoint '/api/nodeDetails' that expects a POST request
         const endpoint = '/api/resource';
         const body = {
             label: node.data.label,
@@ -153,7 +151,8 @@ console.log('raw',careerRaw)
             // Handle error (show an error message, etc.)
         }
     };
-    
+    console.log(sidebarContent)
+    console.log(sidebardetials)
     console.log('hello this your data',careerPath)
     console.log(careerPath.length)
     // console.log(careerPath[0])

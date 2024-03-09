@@ -9,7 +9,7 @@ export async function POST(req, res) {
   const { label } = body;
 
   // Adjust the prompt to request detailed information about the career path
-  const prompt = `Provide a detailed description for the career path titled "${label}". Include insights about what the career entails, necessary qualifications, typical work environments, and possible growth opportunities.`;
+  const prompt = `Provide a detailed description for the career path titled "${label}". Include insights about what the career entails, necessary qualifications, typical work environments, and possible growth opportunities. All the opurtunities and response should be about female and girls only`;
 
   const openai = new OpenAI({
     apiKey: "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", // Use an environment variable for the API key
@@ -28,9 +28,9 @@ export async function POST(req, res) {
 
     // Directly returning the response from OpenAI to the client.
     // You might want to format or sanitize this response depending on your needs.
-    res.status(200).json({ details: completion.choices[0].message.content });
+    return Response.json({ details: completion.choices[0].message.content });
   } catch (error) {
     console.error('Error calling OpenAI:', error);
-    res.status(500).json({ error: 'Failed to fetch data from OpenAI' });
+    return Response.json({ error: 'Failed to fetch data from OpenAI' });
   }
 }
