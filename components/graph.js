@@ -104,7 +104,7 @@ const FlowComponent = () => {
         } catch (error) {
             console.error('Failed to call API:', error);
         }
-    }, [selections,callRelevantApi]);
+    }, [selections]);
     useEffect(() => {
         callRelevantApi();
     }, [callRelevantApi]);

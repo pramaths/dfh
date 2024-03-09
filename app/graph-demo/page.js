@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import Graph from "../../components/graph"
+import Graph from "../../components/graph-demo"
 import Sidebar from "@/components/SideBar";
 import { useGraphData } from '../../context/GraphDataContext';
 export default function Home() {
