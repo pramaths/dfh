@@ -100,9 +100,9 @@ console.log('linkedin',selections.linkedIn)
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
-            console.log(response)
+            console.log('hello',response)
             const data = await response.json();
-            setCareerPath(data)
+            setCareerPath(data.careerPaths)
             console.log(data);
         } catch (error) {
             console.error('Failed to call API:', error);
@@ -120,6 +120,7 @@ console.log('linkedin',selections.linkedIn)
         setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
     };
     console.log('hello this your data',careerPath)
+    console.log(careerPath[0])
     const nodeTypes = useMemo(
         () => ({
             special: SpecialNodeComponent, 
@@ -157,32 +158,60 @@ console.log('linkedin',selections.linkedIn)
         }));
     };
   
+    // const addCareerPathNodeAndEdge = useCallback(() => {
+    //     if (nodes.length >= careerPaths.length + 1) { // Plus one to account for the 'You' node
+    //         return;
+    //     }
+
+    //     const newNodeId = `node_${nodes.length}`;
+    //     const angle = ((Math.PI * 3) / careerPaths.length) * (nodes.length - 1);
+    //     const x = Math.cos(angle) * nodeDistance * (nodes.length - 1);
+    //     const y = Math.sin(angle) * nodeDistance * (nodes.length - 1);
+
+    //     const newNode = {
+    //         id: newNodeId,
+    //         data: { label: careerPaths[nodes.length - 1].title +careerPaths[nodes.length-1].emoji },
+    //         type:'output',
+    //         position: { x: (nodes.length * nodeDistance) % window.innerWidth, y: Math.floor((nodes.length * nodeDistance) / window.innerWidth) * nodeDistance },
+    //         draggable: true,
+    //     };
+    //     const newEdge = { id: `e1-${newNodeId}`, source: '1', target: newNodeId ,animated:true};
+
+    //     setNodes((nds) => nds.concat(newNode));
+    //     setEdges((eds) => eds.concat(newEdge));
+
+    //     // if (reactFlowInstance) {
+    //     //     reactFlowInstance.fitView();
+    //     // }
+    // }, [nodes, reactFlowInstance]);
     const addCareerPathNodeAndEdge = useCallback(() => {
-        if (nodes.length >= careerPaths.length + 1) { // Plus one to account for the 'You' node
-            return;
-        }
-
-        const newNodeId = `node_${nodes.length}`;
-        const angle = ((Math.PI * 3) / careerPaths.length) * (nodes.length - 1);
-        const x = Math.cos(angle) * nodeDistance * (nodes.length - 1);
-        const y = Math.sin(angle) * nodeDistance * (nodes.length - 1);
-
-        const newNode = {
+        careerPath.forEach((path, index) => {
+          const existingNodeIds = nodes.map(node => node.id);
+          const newNodeId = `node_${index + 2}`; // Since '1' is reserved for 'You'
+          if (existingNodeIds.includes(newNodeId)) return;
+    
+          const angle = ((Math.PI * 2) / careerPath.length) * index;
+          const x = Math.cos(angle) * nodeDistance;
+          const y = Math.sin(angle) * nodeDistance;
+    
+          const newNode = {
             id: newNodeId,
-            data: { label: careerPaths[nodes.length - 1].title +careerPaths[nodes.length-1].emoji },
-            type:'output',
-            position: { x: (nodes.length * nodeDistance) % window.innerWidth, y: Math.floor((nodes.length * nodeDistance) / window.innerWidth) * nodeDistance },
+            type: 'special',
+            data: { label: `${path.title} ${path.emoji || ''}`.trim() },
+            position: { x, y },
             draggable: true,
-        };
-        const newEdge = { id: `e1-${newNodeId}`, source: '1', target: newNodeId ,animated:true};
-
-        setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) => eds.concat(newEdge));
-
-        // if (reactFlowInstance) {
-        //     reactFlowInstance.fitView();
-        // }
-    }, [nodes, reactFlowInstance]);
+          };
+    
+          const newEdge = { id: `e1-${newNodeId}`, source: '1', target: newNodeId, animated: true };
+    
+          setNodes((nds) => [...nds, newNode]);
+          setEdges((eds) => [...eds, newEdge]);
+        });
+      }, [careerPath, nodes]);
+    
+      useEffect(() => {
+        addCareerPathNodeAndEdge();
+      }, [careerPath, addCareerPathNodeAndEdge]);
 
     useEffect(() => {
         if (!reactFlowInstance) return;

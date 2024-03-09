@@ -18,7 +18,7 @@ console.log(driveFileIdMatch)
 
   const question = `What career paths are suitable based on the content of this resume?
   Example output:
-  career_options:[
+  careerPaths:[
     { "title": "Mechanical Engineer", "emoji": "🔧" },
     { "title": "Software Developer", "emoji": "💻" },
     { "title": "Civil Services", "emoji": "🏛️" },
@@ -53,8 +53,15 @@ console.log(sourceId)
         },
       ],
     }, config);
-console.log(response.data.content)
-const res=response.data.content
+
+    const careerOptions = JSON.parse(response.data.content);
+    console.log(careerOptions);
+
+    // Directly return the JSON career options
+    return new Response(JSON.stringify(careerOptions), {
+      headers: { "Content-Type": "application/json" },
+    });
+
 return  Response.json({ res });
   } catch (error) {
     console.error("API call failed:", error.message);

@@ -40,7 +40,7 @@ Please generate career path guidelines in the following format:
 The expected format for each suggestion is: { "title": "Job Title", "emoji": "Emoji" }
 
 Example output:
-career_options:[
+careerPaths:[
  { "title": "Mechanical Engineer", "emoji": "🔧" }
  { "title": "Software Developer", "emoji": "💻" }
 { "title": "Civil Services", "emoji": "🏛️" },
@@ -63,7 +63,7 @@ Note: The job titles and emojis should align with the profile's skills, experien
     console.log(gptResponse.choices[0].message.content)
     const res=(gptResponse.choices[0].message.content)
     // console.log(careerGuidelines)
-    return new  NextResponse(JSON.stringify(res), {
+    return new NextResponse(JSON.stringify(res), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

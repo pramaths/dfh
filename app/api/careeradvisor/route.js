@@ -17,7 +17,7 @@ Hobby: ${hobby}
 Interests: ${interests}
 Not interests: ${notinterests}
 Work Environment: ${workenv}
-Generate a list of career paths and emojis related to the user's interest in a JSON format: with attirbute as title and emoji always generate minimum 10 objects if the interests are too generic generate 11-15 path`;
+Generate a list of career paths and emojis related to the user's interest in a JSON format: with attirbute as title and emoji always generate minimum 10 objects if the interests are too generic generate 11-15 path just give json output dont mention anything iwth that like json and all`;
 
 const openai = new OpenAI({
   apiKey: "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", // Always use environment variables for API keys
