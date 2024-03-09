@@ -74,7 +74,7 @@ const FlowComponent = () => {
 console.log('linkedin',selections.linkedIn)
 
     const callRelevantApi = useCallback(async () => {
-        let endpoint = '/api/careeradvice'; 
+        let endpoint = '/api/careeradvisor'; 
         let body = {
             interests: selections.interests,
             notInterests: selections.notinterests,
@@ -88,8 +88,9 @@ console.log('linkedin',selections.linkedIn)
             body = { profileUrl: selections.linkedIn }; // Assuming the LinkedIn API expects a profile link
         } else if (selections.resume) {
             endpoint = '/api/resume';
-            body = { resumePdfUrl: selections.resume }; // Assuming the Resume API expects resume content
+            body = { pdfUrl: selections.resume }; // Assuming the Resume API expects resume content
         }
+        console.log(`Calling API: ${endpoint} with body:`, body);
 
         try {
             const response = await fetch(endpoint, {
@@ -107,6 +108,7 @@ console.log('linkedin',selections.linkedIn)
             console.error('Failed to call API:', error);
         }
     }, [selections]);
+
     useEffect(() => {
         callRelevantApi();
     }, [callRelevantApi]);

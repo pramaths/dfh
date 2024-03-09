@@ -46,7 +46,7 @@ career_options:[
 { "title": "Civil Services", "emoji": "🏛️" },
 { "title": "Fashion Designer", "emoji": "👗" }
 ];
-Note: The job titles and emojis should align with the profile's skills, experiences, and interests. Atleast generate minimum 10 career path. Always ensure that we always follow proper json structure without error
+Note: The job titles and emojis should align with the profile's skills, experiences, and interests. Atleast generate minimum 10 career path. Always ensure that we always follow proper json structure without error and dont mention anything like hello this is your data
 `;
     
     const gptResponse = await openai.chat.completions.create({

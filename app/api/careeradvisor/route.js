@@ -14,8 +14,8 @@ export  async function POST(req,res) {
   const prompt = `Given the user's details:
 Growth: ${growth}
 Hobby: ${hobby}
-Interests: ${interests.join(', ')}
-Not interests: ${notinterests.join(', ')}
+Interests: ${interests}
+Not interests: ${notinterests}
 Work Environment: ${workenv}
 Generate a list of career paths and emojis related to the user's interest in a JSON format: with attirbute as title and emoji always generate minimum 10 objects if the interests are too generic generate 11-15 path`;
 
