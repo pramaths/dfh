@@ -63,7 +63,7 @@ Note: The job titles and emojis should align with the profile's skills, experien
     console.log(gptResponse.choices[0].message.content)
     const res=(gptResponse.choices[0].message.content)
     // console.log(careerGuidelines)
-    return new NextResponse(JSON.stringify(res), {
+    return new NextResponse((res), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

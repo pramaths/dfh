@@ -34,8 +34,8 @@ const openai = new OpenAI({
 
     // Assume the response is in the expected format; in a real scenario, you would parse and validate this carefully.
     const careerPaths = (completion.choices[0].message.content);
-    
-   return  Response.json(careerPaths);
+    console.log(careerPaths)
+   return  Response.json(JSON.parse(careerPaths));
   } catch (error) {
     console.error('Error calling OpenAI:', error);
     return  Response.json({ error: 'Failed to fetch data from OpenAI' });

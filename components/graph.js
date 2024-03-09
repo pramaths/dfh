@@ -60,6 +60,7 @@ const FlowComponent = () => {
     const [sidebardetials,setSidebardetails]=useState('')
     const { selections } = useSelections();
     const [careerPath, setCareerPath] = useState([]);
+    const [careerRaw,setCareerRaw]=useState([])
     const onDoubleClick = (event, node) => {
         console.log('Node double-clicked:', node);
         setSidebarContent(node.data.label);
@@ -102,13 +103,14 @@ console.log('linkedin',selections.linkedIn)
             if (!response.ok) throw new Error('Network response was not ok');
             console.log('hello',response)
             const data = await response.json();
+            setCareerRaw(data)
             setCareerPath(data.careerPaths)
             console.log(data);
         } catch (error) {
             console.error('Failed to call API:', error);
         }
     }, [selections]);
-
+console.log('raw',careerRaw)
     useEffect(() => {
         callRelevantApi();
     }, [callRelevantApi]);
@@ -120,6 +122,7 @@ console.log('linkedin',selections.linkedIn)
         setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
     };
     console.log('hello this your data',careerPath)
+    console.log(careerPath.length)
     // console.log(careerPath[0])
     const nodeTypes = useMemo(
         () => ({
@@ -184,6 +187,7 @@ console.log('linkedin',selections.linkedIn)
     //     //     reactFlowInstance.fitView();
     //     // }
     // }, [nodes, reactFlowInstance]);
+    
     const addCareerPathNodeAndEdge = useCallback(() => {
         const existingNodeIds = nodes.map((node) => node.id);
         const nextNodeId = existingNodeIds.length + 1;
@@ -198,7 +202,7 @@ console.log('linkedin',selections.linkedIn)
     
             const newNode = {
                 id: newNodeId,
-                type: 'special', // Make sure this custom node type is implemented correctly
+                type: 'output', // Make sure this custom node type is implemented correctly
                 data: { label: `${career.title} ${career.emoji}` },
                 position: { x: x + window.innerWidth / 2, y: y + window.innerHeight / 2 }, // Adjust position to be relative to center
                 draggable: true,
