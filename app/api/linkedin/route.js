@@ -1,59 +1,74 @@
 // pages/api/linkedinProfile.js
 
 import axios from 'axios';
-import { Configuration, OpenAIApi } from "openai";
-// Environment variables should be used for sensitive values like API keys
+import { OpenAI } from "openai";
+import { NextResponse,NextRequest } from 'next/server';
 const LINKEDIN_API_KEY = '9fad4de06fmshb9ef7fb994db8dcp1e1241jsn6c9ca08436ee';
 const LINKEDIN_API_HOST = 'linkedin-profiles1.p.rapidapi.com';
 
-const OPENAI_API_KEY = "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"; 
-export default async function GET(req, res) {
-  const { profileUrl } = req.body;
-  if (!profileUrl) {
-    return res.status(400).json({ error: 'Profile URL is required' });
+export async function POST(req, res) {
+  const body = await req.json();
+  console.log(body)
+  const { profileUrl } = body;
+  console.log(profileUrl)
+    if (!profileUrl) {
+    return new NextResponse.json({ error: 'Profile URL is required' },{status:400});
   }
 
   const linkedInOptions = {
     method: 'GET',
     url: 'https://linkedin-profiles1.p.rapidapi.com/extract',
-    params: { url: profileUrl, html: '1' },
+    params: { url: profileUrl },
     headers: {
       'X-RapidAPI-Key': LINKEDIN_API_KEY,
       'X-RapidAPI-Host': LINKEDIN_API_HOST
     }
   };
-
+  const openai = new OpenAI({
+    apiKey: "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", // Always use environment variables for API keys
+  });
   try {
     // Step 1: Retrieve LinkedIn profile data
     const linkedInResponse = await axios.request(linkedInOptions);
-    const profileData = linkedInResponse.data; // Assume this contains the necessary profile details
+    const profileData = linkedInResponse.data.extractor; // Assume this contains the necessary profile details
+console.log(profileData)
+const prompt = `
+Given the LinkedIn profile details: 
+${profileData}
+Please generate career path guidelines in the following format:
+- For each career suggestion, provide the job title and an associated emoji.
+The expected format for each suggestion is: { "title": "Job Title", "emoji": "Emoji" }
 
-    // Step 2: Generate career path guidelines via ChatGPT based on LinkedIn profile
-    const configuration = new Configuration({
-      apiKey: OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
-
-    const prompt = `Based on the following LinkedIn profile details: ${JSON.stringify(profileData)}, generate career path guidelines.`;
+Example output:
+career_options:[
+ { "title": "Mechanical Engineer", "emoji": "🔧" }
+ { "title": "Software Developer", "emoji": "💻" }
+{ "title": "Civil Services", "emoji": "🏛️" },
+{ "title": "Fashion Designer", "emoji": "👗" }
+];
+Note: The job titles and emojis should align with the profile's skills, experiences, and interests. Atleast generate minimum 10 career path. Always ensure that we always follow proper json structure without error
+`;
     
-    const gptResponse = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: prompt,
+    const gptResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: 'system', content: prompt }],
       temperature: 0.6,
-      max_tokens: 150,
-      top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
+      max_tokens: 1000,
+  
     });
 
     const careerGuidelines = {
-      guidelines: gptResponse,
+      guidelines: JSON.stringify(gptResponse.choices[0].message.content),
     };
-
-    // Step 3: Return the career path guidelines to the client
-    res.status(200).json(careerGuidelines);
+    console.log(gptResponse.choices[0].message.content)
+    const res=(gptResponse.choices[0].message.content)
+    // console.log(careerGuidelines)
+    return new  NextResponse(JSON.stringify(res), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error(error);
-    res.status(error.response?.status || 500).json({ error: error.message });
+    return NextResponse.json({ message: 'Internal server error' })
   }
 }

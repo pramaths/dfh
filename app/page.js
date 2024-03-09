@@ -8,7 +8,22 @@ import Scrollanime from '../components/scrollanime'
 import { Button } from "../components/ui/moving-borders";
  import Project from "../components/project"
 import Navbar from "../components/component/Navbar"
+import React,{ useState,useEffect } from "react";
 export default function Home() {
+  useEffect(() => {
+    if (typeof window !== 'undefined') { // Make sure this runs only on the client side
+      const alanBtn = require('@alan-ai/alan-sdk-web');
+      alanBtn({
+          key: 'fc0dd1342f0d91f6cf3a31accb3c8df62e956eca572e1d8b807a3e2338fdd0dc/stage',
+          onCommand: (commandData) => {
+            if (commandData.command === 'testCommand') {
+              alert('this was executed');
+            }
+          }
+      });
+    }
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <Navbar/>

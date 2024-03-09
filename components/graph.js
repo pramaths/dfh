@@ -59,7 +59,7 @@ const FlowComponent = () => {
     const [sidebarContent, setSidebarContent] = useState('');
     const [sidebardetials,setSidebardetails]=useState('')
     const { selections } = useSelections();
-
+    const [careerPath, setCareerPath] = useState([]);
     const onDoubleClick = (event, node) => {
         console.log('Node double-clicked:', node);
         setSidebarContent(node.data.label);
@@ -71,6 +71,43 @@ const FlowComponent = () => {
       console.log(selections);
       // Replace console.log with your function to send data to ChatGPT or similar service
     }, [selections]);
+
+
+    const callRelevantApi = useCallback(async () => {
+        let endpoint = '/api/careeradvice'; 
+        let body = {
+            interests: selections.interests,
+            notInterests: selections.notinterests,
+            growth: selections.growth,
+            workEnv: selections.workenv,
+            hobby: selections.hobby,
+        };
+
+        if (selections.linkedIn) {
+            endpoint = '/api/linkedin';
+            body = { profileUrl: selections.linkedIn }; // Assuming the LinkedIn API expects a profile link
+        } else if (selections.resume) {
+            endpoint = '/api/resume';
+            body = { resumePdfUrl: selections.resume }; // Assuming the Resume API expects resume content
+        }
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+            setCareerPath(data)
+            console.log(data);
+        } catch (error) {
+            console.error('Failed to call API:', error);
+        }
+    }, [selections,callRelevantApi]);
+    useEffect(() => {
+        callRelevantApi();
+    }, [callRelevantApi]);
     const onNodeClick = (event, node) => {
         console.log("Node clicked:", node);
         setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')

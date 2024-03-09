@@ -1,13 +1,36 @@
 // pages/api/analyzeResume.js
 import axios from 'axios';
+import { NextRequest,NextResponse } from 'next/server';
+export async function POST(req, res) {
+  // if (req.method !== 'POST') {
+  //   return res.status(405).end('Method Not Allowed');
+  // }
+ 
 
-export default async function POST(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).end('Method Not Allowed');
+  const body=await req.json()
+  // if (!pdfUrls) {
+  //   return NextResponse.json({ error: 'pdfUrls not provided in the request body' });
+  // }
+  console.log(body)
+  const { pdfUrl:resumePdfUrl} = body;
+  const driveFileIdMatch = resumePdfUrl.match(/file\/d\/(.*?)\//);
+console.log(driveFileIdMatch)
+
+  const question = `What career paths are suitable based on the content of this resume?
+  Example output:
+  career_options:[
+    { "title": "Mechanical Engineer", "emoji": "🔧" },
+    { "title": "Software Developer", "emoji": "💻" },
+    { "title": "Civil Services", "emoji": "🏛️" },
+    { "title": "Fashion Designer", "emoji": "👗" }
+  ]; this is just an example you should give proper career path personalized based on the resume minimum 10-15 and alwasy shouls be json career path you have to give json objects in json and dont give extra text just give json`;
+
+  if (!driveFileIdMatch) {
+    return new NextResponse.json({ error: 'Invalid Google Drive URL' });
   }
-  const question = "What career paths are suitable based on the content of this resume?";
-  const { pdfUrl } = req.body;
 
+  const pdfUrl = `https://drive.google.com/uc?export=download&id=${driveFileIdMatch[1]}`;
+console.log(pdfUrl)
   const config = {
     headers: {
       "x-api-key": "sec_1A51ZrXpMZtpjuYIkkbDnuw0coLacwUc", // Store your API key in environment variables for security
@@ -19,7 +42,7 @@ export default async function POST(req, res) {
     // Step 1: Add PDF URL
     let response = await axios.post("https://api.chatpdf.com/v1/sources/add-url", { url: pdfUrl }, config);
     const sourceId = response.data.sourceId;
-
+console.log(sourceId)
     // Step 2: Ask a question based on the uploaded PDF
     response = await axios.post("https://api.chatpdf.com/v1/chats/message", {
       sourceId,
@@ -30,17 +53,11 @@ export default async function POST(req, res) {
         },
       ],
     }, config);
-
-    // Assuming the response includes career path guidelines
-    // Format the response to match your desired structure
-    const careerPaths = response.data.messages.map(message => ({
-      title: message.content, // Extract or transform this based on actual API response
-      emoji: "🚀", // Assign emojis or handle dynamically based on content
-    }));
-
-    res.status(200).json({ careerPaths });
+console.log(response.data.content)
+const res=response.data.content
+return  Response.json({ res });
   } catch (error) {
     console.error("API call failed:", error.message);
-    res.status(500).json({ error: error.message });
+ return Response.json({ error: error.message });
   }
 }
