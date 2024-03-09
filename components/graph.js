@@ -120,7 +120,7 @@ console.log('linkedin',selections.linkedIn)
         setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
     };
     console.log('hello this your data',careerPath)
-    console.log(careerPath[0])
+    // console.log(careerPath[0])
     const nodeTypes = useMemo(
         () => ({
             special: SpecialNodeComponent, 
