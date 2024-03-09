@@ -114,13 +114,46 @@ console.log('raw',careerRaw)
     useEffect(() => {
         callRelevantApi();
     }, [callRelevantApi]);
-    const onNodeClick = (event, node) => {
+    // const onNodeClick = (event, node) => {
+    //     console.log("Node clicked:", node);
+    //     setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')
+    //     setSelectedNode(node);
+    //     setIsSidebarOpen(true); // Open your sidebar upon clicking a node
+    //     setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
+
+        
+    // };
+    const onNodeClick = async (event, node) => {
         console.log("Node clicked:", node);
-        setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')
         setSelectedNode(node);
-        setIsSidebarOpen(true); // Open your sidebar upon clicking a node
-        setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
+    
+        // Assume we have an endpoint '/api/nodeDetails' that expects a POST request
+        const endpoint = '/api/resource';
+        const body = {
+            label: node.data.label,
+        };
+    
+        try {
+            setIsSidebarOpen(true); // Optionally, open the sidebar immediately or wait for successful fetch
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+    
+            if (!response.ok) throw new Error('Network response was not ok');
+    
+            const data = await response.json();
+            console.log("API response data:", data);
+            setSidebarContent(node.data.label); // This could be updated based on response if needed
+            setSidebardetails(data.details); // Assume 'details' is the field in your response with the info
+    
+        } catch (error) {
+            console.error('Failed to fetch node details:', error);
+            // Handle error (show an error message, etc.)
+        }
     };
+    
     console.log('hello this your data',careerPath)
     console.log(careerPath.length)
     // console.log(careerPath[0])
@@ -203,7 +236,7 @@ console.log('raw',careerRaw)
             const newNode = {
                 id: newNodeId,
                 type: 'output', // Make sure this custom node type is implemented correctly
-                data: { label: `${career.title} ${career.emoji}` },
+                data: { label: `${career?.title} ${career.emoji}` },
                 position: { x: x + window.innerWidth / 2, y: y + window.innerHeight / 2 }, // Adjust position to be relative to center
                 draggable: true,
             };
