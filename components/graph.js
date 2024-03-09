@@ -185,33 +185,38 @@ console.log('linkedin',selections.linkedIn)
     //     // }
     // }, [nodes, reactFlowInstance]);
     const addCareerPathNodeAndEdge = useCallback(() => {
-        careerPath.forEach((path, index) => {
-          const existingNodeIds = nodes.map(node => node.id);
-          const newNodeId = `node_${index + 2}`; // Since '1' is reserved for 'You'
-          if (existingNodeIds.includes(newNodeId)) return;
+        const existingNodeIds = nodes.map((node) => node.id);
+        const nextNodeId = existingNodeIds.length + 1;
+        const newNodeId = `node_${nextNodeId}`;
+        
+        // Check if the title already exists in the current nodes to prevent duplicates
+        if (careerPath.length > 0 && !existingNodeIds.includes(newNodeId)) {
+            const career = careerPath[nextNodeId - 2]; // Adjust index for array
+            const angle = ((Math.PI * 2) / careerPath.length) * (nextNodeId - 2);
+            const x = Math.cos(angle) * nodeDistance;
+            const y = Math.sin(angle) * nodeDistance;
     
-          const angle = ((Math.PI * 2) / careerPath.length) * index;
-          const x = Math.cos(angle) * nodeDistance;
-          const y = Math.sin(angle) * nodeDistance;
+            const newNode = {
+                id: newNodeId,
+                type: 'special', // Make sure this custom node type is implemented correctly
+                data: { label: `${career.title} ${career.emoji}` },
+                position: { x: x + window.innerWidth / 2, y: y + window.innerHeight / 2 }, // Adjust position to be relative to center
+                draggable: true,
+            };
     
-          const newNode = {
-            id: newNodeId,
-            type: 'special',
-            data: { label: `${path.title} ${path.emoji || ''}`.trim() },
-            position: { x, y },
-            draggable: true,
-          };
+            const newEdge = {
+                id: `e-${newNodeId}`,
+                source: '1', // Source is the 'You' node
+                target: newNodeId,
+                type: 'floating', // Ensure 'floating' edge type is defined if needed
+                animated: true,
+                // ... any other edge properties
+            };
     
-          const newEdge = { id: `e1-${newNodeId}`, source: '1', target: newNodeId, animated: true };
-    
-          setNodes((nds) => [...nds, newNode]);
-          setEdges((eds) => [...eds, newEdge]);
-        });
-      }, [careerPath, nodes]);
-    
-      useEffect(() => {
-        addCareerPathNodeAndEdge();
-      }, [careerPath, addCareerPathNodeAndEdge]);
+            setNodes((nds) => [...nds, newNode]);
+            setEdges((eds) => [...eds, newEdge]);
+        }
+    }, [careerPath, nodes, setNodes, setEdges]);
 
     useEffect(() => {
         if (!reactFlowInstance) return;

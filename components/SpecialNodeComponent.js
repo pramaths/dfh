@@ -8,10 +8,11 @@ const SpecialNodeComponent = ({ data }) => {
         padding: '10px',
         border: '1px solid #777',
         borderRadius: '3px',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         cursor: 'pointer',
         // border-radius: "1rem",
         whiteSpace: 'nowrap',
+        color:'wheat'
       }}
     >
       {data.label}
