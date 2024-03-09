@@ -71,7 +71,7 @@ const FlowComponent = () => {
       console.log(selections);
       // Replace console.log with your function to send data to ChatGPT or similar service
     }, [selections]);
-
+console.log('linkedin',selections.linkedIn)
 
     const callRelevantApi = useCallback(async () => {
         let endpoint = '/api/careeradvice'; 
@@ -97,7 +97,9 @@ const FlowComponent = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
             });
+
             if (!response.ok) throw new Error('Network response was not ok');
+            console.log(response)
             const data = await response.json();
             setCareerPath(data)
             console.log(data);
@@ -115,7 +117,7 @@ const FlowComponent = () => {
         setIsSidebarOpen(true); // Open your sidebar upon clicking a node
         setSidebarContent(node.data.label); // Set the sidebar content based on the clicked node
     };
-    
+    console.log('hello this your data',careerPath)
     const nodeTypes = useMemo(
         () => ({
             special: SpecialNodeComponent, 

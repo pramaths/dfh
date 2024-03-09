@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { OpenAI } from "openai";
 import { NextResponse,NextRequest } from 'next/server';
-const LINKEDIN_API_KEY = '9fad4de06fmshb9ef7fb994db8dcp1e1241jsn6c9ca08436ee';
+const LINKEDIN_API_KEY = 'a29cd4d4aemsh17a00a65d88a2fap12ef9cjsn2223da4cf6a7';
 const LINKEDIN_API_HOST = 'linkedin-profiles1.p.rapidapi.com';
 
 export async function POST(req, res) {
