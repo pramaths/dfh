@@ -3,8 +3,18 @@ import React from "react";
 import { SparklesCore } from "../components/ui/sparkles";
 
 export default function SparklesPreview() {
+  const handleGoToAppClick = () => {
+    window.location.href = "/choices";
+  };
+
   return (
-    <div className="h-[40rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md">
+    <div className="relative h-[40rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md">
+      <button
+        onClick={handleGoToAppClick}
+        className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+      >
+        Go to App
+      </button>
       <h1 className="md:text-10xl text-9xl lg:text-10xl font-bold text-center text-white relative">
         Future Pilot
       </h1>

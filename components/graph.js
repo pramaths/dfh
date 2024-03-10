@@ -19,7 +19,13 @@ const initialNodes = [
     type: 'input',
     data: { label: 'You' },
     position: { x: 550, y: 5 }, 
-    draggable:true
+  },
+  {
+    id: 'communitySupport',
+    type: 'output',
+    data: { label: 'Community Support' },
+    position: { x: 550, y: 400 },
+    draggable: true,
   },
 ];
 
