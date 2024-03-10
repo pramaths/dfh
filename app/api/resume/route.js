@@ -8,9 +8,7 @@ export async function POST(req, res) {
  
 
   const body=await req.json()
-  // if (!pdfUrls) {
-  //   return NextResponse.json({ error: 'pdfUrls not provided in the request body' });
-  // }
+
   console.log(body)
   const { pdfUrl:resumePdfUrl} = body;
   const driveFileIdMatch = resumePdfUrl.match(/file\/d\/(.*?)\//);
