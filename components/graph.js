@@ -113,7 +113,7 @@ console.log('linkedin',selections.linkedIn)
 console.log('raw',careerRaw)
     useEffect(() => {
         callRelevantApi();
-    }, [callRelevantApi]);
+    }, []);
     // const onNodeClick = (event, node) => {
     //     console.log("Node clicked:", node);
     //     setSidebardetails('Software Engineering is a systematic engineering approach to software development.A Software Engineer applies engineering principles to design, develop, maintain, test, and evaluate computer software.This field is vast and offers numerous opportunities for specialization.')
@@ -154,7 +154,7 @@ console.log('raw',careerRaw)
     console.log(sidebarContent)
     console.log(sidebardetials)
     console.log('hello this your data',careerPath)
-    console.log(careerPath.length)
+    // console.log(careerPath.length)
     // console.log(careerPath[0])
     const nodeTypes = useMemo(
         () => ({
@@ -235,7 +235,7 @@ console.log('raw',careerRaw)
             const newNode = {
                 id: newNodeId,
                 type: 'output', // Make sure this custom node type is implemented correctly
-                data: { label: `${career?.title} ${career.emoji}` },
+                data: { label: `${career?.title} ${career?.emoji}` },
                 position: { x: x + window.innerWidth / 2, y: y + window.innerHeight / 2 }, // Adjust position to be relative to center
                 draggable: true,
             };
