@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { OpenAI } from "openai";
 import { NextResponse,NextRequest } from 'next/server';
-const LINKEDIN_API_KEY = 'a29cd4d4aemsh17a00a65d88a2fap12ef9cjsn2223da4cf6a7';
+const LINKEDIN_API_KEY = 'c982fe81b7mshdf6c53d891dc074p1b1138jsna85400595120';
 const LINKEDIN_API_HOST = 'linkedin-profiles1.p.rapidapi.com';
 
 export async function POST(req, res) {
@@ -25,7 +25,7 @@ export async function POST(req, res) {
     }
   };
   const openai = new OpenAI({
-    apiKey: "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", // Always use environment variables for API keys
+    apiKey: "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", // Always use environment variables for API keys
   });
   try {
     // Step 1: Retrieve LinkedIn profile data
